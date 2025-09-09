@@ -15,9 +15,15 @@ yum install -y jenkins
 systemctl daemon-reload
 systemctl enable jenkins
 
-if ! grep -q "runSetupWizard=false" /etc/sysconfig/jenkins; then
-  sed -i 's/JENKINS_JAVA_OPTIONS="/JENKINS_JAVA_OPTIONS="-Djenkins.install.runSetupWizard=false /' /etc/sysconfig/jenkins
-fi
+mkdir -p /etc/systemd/system/jenkins.service.d/
+
+# Create systemd override to add setup wizard bypass to JAVA_OPTS
+cat > /etc/systemd/system/jenkins.service.d/override.conf << 'EOF'
+[Service]
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"
+EOF
+
+systemctl daemon-reload
 
 service jenkins start
 
