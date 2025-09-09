@@ -3,18 +3,6 @@ set -e
 
 sudo su -
 
-yum install -y git
-
-# === CONFIG ===
-GIT_REPO="https://github.com/huymusic987/infra-jenkins.git"
-
-# === Clone repo ===
-if [ ! -d "$INSTALL_DIR" ]; then
-  git clone "$GIT_REPO" "$INSTALL_DIR"
-else
-  echo "Repo already exists at $INSTALL_DIR."
-fi
-
 INSTALL_DIR="/root/infra-jenkins"
 JENKINS_HOME="/var/lib/jenkins"
 CONFIGS_DIR="$JENKINS_HOME/configs"
