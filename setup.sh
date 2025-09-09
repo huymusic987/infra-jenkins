@@ -1,18 +1,12 @@
 #!/bin/bash
 set -e
 
-sudo su -
-
 INSTALL_DIR="/root/infra-jenkins"
 JENKINS_HOME="/var/lib/jenkins"
 CONFIGS_DIR="$JENKINS_HOME/configs"
 
-echo "started"
-
 # === Install Java 17 + Jenkins ===
 wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
-
-echo "debugging"
 rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
 
 yum install -y fontconfig java-17-amazon-corretto
