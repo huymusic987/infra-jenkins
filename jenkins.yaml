@@ -17,14 +17,19 @@ jenkins:
         - id: "admin"
           name: "Administrator"
           password: "happyyear27"
+          description: "Jenkins Administrator"
 
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
+  remotingSecurity:
+    enabled: true
 
   unclassified:
     location:
       url: "http://localhost:8080/"
+    timestamper:
+      allPipelines: true
     timezone:
       timeZone: "Asia/Ho_Chi_Minh"
 

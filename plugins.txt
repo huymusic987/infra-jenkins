@@ -1,5 +1,8 @@
+configuration-as-code:latest
+workflow-aggregator:latest
 git:latest
 github:latest
 nodejs:latest
-workflow-aggregator:latest
-configuration-as-code:latest
+timestamper:latest
+ws-cleanup:latest
+build-timeout:latest
