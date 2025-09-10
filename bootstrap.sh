@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
 
+echo "tmpfs /tmp tmpfs defaults,size=3G 0 0" | sudo tee -a /etc/fstab
+
+mount -o remount /tmp
+
 yum update -y
 yum install -y git
 

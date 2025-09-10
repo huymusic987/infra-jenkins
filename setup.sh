@@ -31,6 +31,15 @@ sleep 30
 
 echo "Installing plugins"
 
+curl -L -o /usr/local/bin/jenkins-plugin-manager-2.13.2.jar https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.13.2/jenkins-plugin-manager-2.13.2.jar
+
+cat << 'EOF' > /usr/local/bin/jenkins-plugin-cli
+#!/bin/bash
+exec java -jar /usr/local/bin/jenkins-plugin-manager-2.13.2.jar "$@"
+EOF
+
+chmod +x /usr/local/bin/jenkins-plugin-cli
+
 if [ -f "$INSTALL_DIR/plugins.txt" ]; then
     cp "$INSTALL_DIR/plugins.txt" "$JENKINS_HOME/plugins.txt"
     
