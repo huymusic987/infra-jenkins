@@ -50,7 +50,7 @@ unclassified:
     url: "http://localhost:8080/"
     adminAddress: "admin@localhost"
 
-  gitSCM:
+  scmGit:
     globalConfigName: "Jenkins"
     globalConfigEmail: "jenkins@localhost"
 
