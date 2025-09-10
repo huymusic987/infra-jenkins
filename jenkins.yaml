@@ -56,14 +56,3 @@ unclassified:
 
   timestamper:
     allPipelines: true
-      name: "autoBuildAndPushToDockerhub"
-      description: "Builds project and pushes Docker image"
-      definition:
-        cpsScm:
-          scm:
-            git:
-              remote:
-                url: "https://github.com/huymusic987/COSC2767-RMIT-Store.git"
-              branches:
-                - "*/main"
-          scriptPath: "Jenkinsfile"

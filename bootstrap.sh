@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "tmpfs /tmp tmpfs defaults,size=3G 0 0" | sudo tee -a /etc/fstab
+echo "tmpfs /tmp tmpfs defaults,size=5G 0 0" | sudo tee -a /etc/fstab
 
 mount -o remount /tmp
 
