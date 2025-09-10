@@ -1,1 +1,38 @@
-message: Yaml Hello World
+jenkins:
+  systemMessage: "Running jenkins.yaml to setup Jenkins"
+  numExecutors: 2
+
+  # Set timezone
+  locale:
+    systemLocale: "en_US"
+  remotingSecurity:
+    enabled: true
+  unclassified:
+    location:
+      url: "http://localhost:8080/"
+    timezone:
+      timeZone: "Asia/Ho_Chi_Minh"
+
+tool:
+  git:
+    installations:
+      - name: "Git"
+        home: "git"
+
+  nodejs:
+    installations:
+      - name: "NodeJS"
+        properties:
+          - installSource:
+              installers:
+                - nodeJSInstaller:
+                    id: "22.18.0"
+                    npmPackagesRefreshHours: 72
+                    globalPackages: ""
+
+plugins:
+  required:
+    - git
+    - github
+    - nodejs
+    - workflow-aggregator

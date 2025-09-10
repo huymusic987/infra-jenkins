@@ -31,15 +31,17 @@ sleep 30
 
 # === Prepare Jenkins config dirs ===
 mkdir -p "$CONFIGS_DIR"
-chown -R jenkins:jenkins "$JENKINS_HOME"
 
 # === Copy configs ===
 cp "$INSTALL_DIR/jenkins.yaml" "$CONFIGS_DIR/jenkins.yaml"
-cp "$INSTALL_DIR/plugins.txt" "$JENKINS_HOME/plugins.txt"
 
-sudo chown -R jenkins:jenkins "$JENKINS_HOME"
+chown -R jenkins:jenkins "$JENKINS_HOME"
 
 # === Enable JCasC ===
-if ! grep -q "CASC_JENKINS_CONFIG" /etc/sysconfig/jenkins; then
-  echo 'JENKINS_JAVA_OPTIONS="$JENKINS_JAVA_OPTIONS -Dcasc.jenkins.config=/var/lib/jenkins/configs/jenkins.yaml"' | sudo tee -a /etc/sysconfig/jenkins
-fi
+cat > /etc/systemd/system/jenkins.service.d/override.conf << 'EOF'
+[Service]
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/lib/jenkins/configs/jenkins.yaml"
+EOF
+
+systemctl daemon-reload
+service jenkins restart
