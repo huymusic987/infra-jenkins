@@ -56,9 +56,6 @@ unclassified:
 
   timestamper:
     allPipelines: true
-
-jobs:
-  - pipelineJob:
       name: "autoBuildAndPushToDockerhub"
       description: "Builds project and pushes Docker image"
       definition:
