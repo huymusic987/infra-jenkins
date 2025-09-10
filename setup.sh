@@ -12,6 +12,18 @@ rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
 yum update -y
 yum install -y fontconfig java-17-amazon-corretto jenkins
 
+echo "Installing Docker"
+
+yum install docker -y
+
+usermod -aG docker jenkins
+
+echo "Starting Docker and Jenkins"
+
+systemctl enable docker
+
+systemctl start docker
+
 echo "=== Preparing Jenkins directories ==="
 mkdir -p "$CONFIGS_DIR"
 mkdir -p "$JENKINS_HOME/plugins"
@@ -31,6 +43,7 @@ cat > /etc/systemd/system/jenkins.service.d/override.conf << 'EOF'
 Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/lib/jenkins/configs/jenkins.yaml"
 EOF
 
+systemctl daemon-reexec
 systemctl daemon-reload
 
 echo "=== Installing Jenkins Plugin Manager ==="
@@ -59,37 +72,8 @@ else
     exit 1
 fi
 
-echo "Installing Docker"
-
-yum install docker -y
-
-usermod -aG docker jenkins
-
-echo "Starting Docker and Jenkins"
-
-systemctl enable docker
-
 systemctl enable jenkins
 
-systemctl start docker
-
-timeout=30
-
 systemctl start jenkins
-
-echo "=== Waiting for Jenkins to start ==="
-timeout=30
-counter=0
-while ! curl -s -f http://localhost:8080/login > /dev/null; do
-    if [ $counter -ge $timeout ]; then
-        echo "ERROR: Jenkins failed to start within $timeout seconds"
-        echo "Checking Jenkins logs:"
-        journalctl -u jenkins --no-pager --lines=50
-        exit 1
-    fi
-    echo "Waiting for Jenkins... ($counter/$timeout seconds)"
-    sleep 5
-    ((counter+=5))
-done
 
 echo "Jenkins setup complete"
