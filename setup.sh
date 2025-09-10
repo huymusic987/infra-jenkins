@@ -68,9 +68,17 @@ usermod -aG docker jenkins
 echo "Starting Docker and Jenkins"
 
 systemctl enable docker
+
+sleep 2
+
 systemctl enable jenkins
 
-service docker start
-service jenkins start
+systemctl start docker
+
+sleep 10
+
+systemctl start jenkins
+
+sleep 3
 
 echo "Jenkins setup complete"
