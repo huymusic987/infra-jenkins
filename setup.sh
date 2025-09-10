@@ -69,16 +69,27 @@ echo "Starting Docker and Jenkins"
 
 systemctl enable docker
 
-sleep 2
-
 systemctl enable jenkins
 
 systemctl start docker
 
-sleep 10
+timeout=30
 
 systemctl start jenkins
 
-sleep 3
+echo "=== Waiting for Jenkins to start ==="
+timeout=30
+counter=0
+while ! curl -s -f http://localhost:8080/login > /dev/null; do
+    if [ $counter -ge $timeout ]; then
+        echo "ERROR: Jenkins failed to start within $timeout seconds"
+        echo "Checking Jenkins logs:"
+        journalctl -u jenkins --no-pager --lines=50
+        exit 1
+    fi
+    echo "Waiting for Jenkins... ($counter/$timeout seconds)"
+    sleep 5
+    ((counter+=5))
+done
 
 echo "Jenkins setup complete"
