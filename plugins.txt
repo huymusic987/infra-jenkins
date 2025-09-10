@@ -1,8 +1,8 @@
-configuration-as-code:latest
+configuration-as-code:1810.v9b_c30a_249a_4c
 workflow-aggregator:latest
 git:latest
-github:latest
 nodejs:latest
 timestamper:latest
 ws-cleanup:latest
 build-timeout:latest
+credentials:latest
