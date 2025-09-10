@@ -56,3 +56,21 @@ unclassified:
 
   timestamper:
     allPipelines: true
+
+jobs:
+  - script: >
+      pipelineJob('autoBuildAndPushToDockerhub') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/huymusic987/COSC2767-RMIT-Store.git')
+                }
+                branches('*/main')
+              }
+            }
+            scriptPath('Jenkinsfile')
+          }
+        }
+      }

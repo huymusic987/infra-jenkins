@@ -59,31 +59,18 @@ else
     exit 1
 fi
 
-echo "=== Enabling and starting Jenkins ==="
+echo "Installing Docker"
+
+yum install docker -y
+
+usermod -aG docker jenkins
+
+echo "Starting Docker and Jenkins"
+
+systemctl enable docker
 systemctl enable jenkins
-systemctl start jenkins
 
-echo "=== Waiting for Jenkins to start ==="
-timeout=300  # 5 minutes timeout
-counter=0
-while ! curl -s -f http://localhost:8080/login > /dev/null; do
-    if [ $counter -ge $timeout ]; then
-        echo "ERROR: Jenkins failed to start within $timeout seconds"
-        echo "Checking Jenkins logs:"
-        journalctl -u jenkins --no-pager --lines=50
-        exit 1
-    fi
-    echo "Waiting for Jenkins... ($counter/$timeout seconds)"
-    sleep 5
-    ((counter+=5))
-done
+service docker start
+service jenkins start
 
-echo "=== Jenkins setup complete! ==="
-echo "Admin credentials:"
-echo "  Username: admin"
-echo "  Password: happyyear27"
-echo ""
-echo "You can access Jenkins at: http://localhost:8080"
-echo ""
-echo "To check Jenkins status: systemctl status jenkins"
-echo "To view Jenkins logs: journalctl -u jenkins -f"
+echo "Jenkins setup complete"
