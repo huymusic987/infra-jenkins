@@ -43,7 +43,7 @@ chmod +x /usr/local/bin/jenkins-plugin-cli
 if [ -f "$INSTALL_DIR/plugins.txt" ]; then
     cp "$INSTALL_DIR/plugins.txt" "$JENKINS_HOME/plugins.txt"
     
-    jenkins-plugin-cli --plugin-file "$JENKINS_HOME/plugins.txt" --jenkins-war /usr/share/java/jenkins.war
+    jenkins-plugin-cli --plugin-file "$JENKINS_HOME/plugins.txt"
     
     echo "Restarting Jenkins after plugin installation..."
     service jenkins restart
