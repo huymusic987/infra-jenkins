@@ -32,7 +32,7 @@ tool:
   git:
     installations:
       - name: "Git"
-        home: "git"
+        home: "/usr/bin/git"
 
   nodejs:
     installations:
@@ -58,19 +58,15 @@ unclassified:
     allPipelines: true
 
 jobs:
-  - script: >
-      pipelineJob('autoBuildAndPushToDockerhub') {
-        definition {
-          cpsScm {
-            scm {
-              git {
-                remote {
-                  url('https://github.com/huymusic987/COSC2767-RMIT-Store.git')
-                }
-                branches('*/main')
-              }
-            }
-            scriptPath('Jenkinsfile')
-          }
-        }
-      }
+  - pipelineJob:
+      name: "autoBuildAndPushToDockerhub"
+      description: "Builds project and pushes Docker image"
+      definition:
+        cpsScm:
+          scm:
+            git:
+              remote:
+                url: "https://github.com/huymusic987/COSC2767-RMIT-Store.git"
+              branches:
+                - "*/main"
+          scriptPath: "Jenkinsfile"

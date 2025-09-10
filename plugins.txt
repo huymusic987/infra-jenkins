@@ -4,6 +4,3 @@ git:latest
 github:latest
 nodejs:latest
 timestamper:latest
-ws-cleanup:latest
-build-timeout:latest
-credentials:latest
