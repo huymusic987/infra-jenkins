@@ -1,4 +1,0 @@
-workflow-aggregator
-git
-github
-nodejs
