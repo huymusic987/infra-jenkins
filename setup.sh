@@ -29,6 +29,29 @@ service jenkins start
 
 sleep 30
 
+echo "Installing plugins"
+
+if [ -f "$INSTALL_DIR/plugins.txt" ]; then
+    cp "$INSTALL_DIR/plugins.txt" "$JENKINS_HOME/plugins.txt"
+    
+    jenkins-plugin-cli --plugin-file "$JENKINS_HOME/plugins.txt" --jenkins-war /usr/share/java/jenkins.war
+    
+    echo "Restarting Jenkins after plugin installation..."
+    service jenkins restart
+    
+    # Wait for restart to complete
+    sleep 60
+    
+    # Wait for Jenkins to be responsive
+    until curl -s -f http://localhost:8080 > /dev/null; do
+        echo "Waiting for Jenkins to respond after restart..."
+        sleep 5
+    done
+else
+    echo "WARNING: plugins.txt not found at $INSTALL_DIR/plugins.txt"
+    exit 1
+fi
+
 # === Prepare Jenkins config dirs ===
 mkdir -p "$CONFIGS_DIR"
 
@@ -36,6 +59,8 @@ mkdir -p "$CONFIGS_DIR"
 cp "$INSTALL_DIR/jenkins.yaml" "$CONFIGS_DIR/jenkins.yaml"
 
 chown -R jenkins:jenkins "$JENKINS_HOME"
+
+echo "Enabling Jenkins Configuration as Code..."
 
 # === Enable JCasC ===
 cat > /etc/systemd/system/jenkins.service.d/override.conf << 'EOF'
@@ -45,3 +70,5 @@ EOF
 
 systemctl daemon-reload
 service jenkins restart
+
+echo "Jenkins setup complete!"

@@ -7,6 +7,21 @@ jenkins:
     systemLocale: "en_US"
   remotingSecurity:
     enabled: true
+
+  # Security configuration
+  securityRealm:
+    local:
+      allowsSignup: false
+      enableCaptcha: false
+      users:
+        - id: "admin"
+          name: "Administrator"
+          password: "happyyear27"
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
   unclassified:
     location:
       url: "http://localhost:8080/"
@@ -29,10 +44,3 @@ tool:
                     id: "22.18.0"
                     npmPackagesRefreshHours: 72
                     globalPackages: ""
-
-plugins:
-  required:
-    - git
-    - github
-    - nodejs
-    - workflow-aggregator
