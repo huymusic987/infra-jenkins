@@ -8,9 +8,9 @@ jenkins:
       allowsSignup: false
       enableCaptcha: false
       users:
-        - id: "admin"
+        - id: "${JENKINS_ADMIN_ID}"
           name: "Administrator"
-          password: "happyyear27"
+          password: "${JENKINS_ADMIN_PASSWORD}"
           description: "Jenkins Administrator"
 
   authorizationStrategy:
