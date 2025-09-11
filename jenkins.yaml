@@ -14,17 +14,8 @@ jenkins:
           description: "Jenkins Administrator"
 
   authorizationStrategy:
-    globalMatrix:
-      grantedPermissions:
-        - "Overall/Administer:admin"
-        - "Credentials/View:admin"
-        - "Credentials/Create:admin"
-        - "Credentials/Update:admin"
-        - "Credentials/Delete:admin"
-        - "Credentials/ManageDomains:admin"
-        - "Job/Read:admin"
-        - "Job/Configure:admin"
-        - "Job/Build:admin"
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
 
   remotingSecurity:
     enabled: true
@@ -74,7 +65,7 @@ jobs:
                 branches('*/main')
               }
             }
-            scriptPath('./Jenkinsfile')
+            scriptPath('Jenkinsfile')
           }
         }
         triggers {
