@@ -24,8 +24,6 @@ systemctl enable docker
 
 systemctl start docker
 
-docker login -u "$DOCKER_USERNAME" --password-stdin <<< "$DOCKER_PASSWORD"
-
 echo "=== Preparing Jenkins directories ==="
 mkdir -p "$CONFIGS_DIR"
 mkdir -p "$JENKINS_HOME/plugins"

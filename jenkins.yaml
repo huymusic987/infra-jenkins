@@ -14,8 +14,17 @@ jenkins:
           description: "Jenkins Administrator"
 
   authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
+  globalMatrix:
+    permissions:
+      - "Overall/Administer:admin"
+      - "Credentials/View:admin"
+      - "Credentials/Create:admin"
+      - "Credentials/Update:admin"
+      - "Credentials/Delete:admin"
+      - "Credentials/ManageDomains:admin"
+      - "Job/Read:admin"
+      - "Job/Configure:admin"
+      - "Job/Build:admin"
 
   remotingSecurity:
     enabled: true
