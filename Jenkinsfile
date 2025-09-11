@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        githubPush()
-    }
-
     environment {
         PATH = "${tool 'NodeJS'}/bin:${env.PATH}"
     }
