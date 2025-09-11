@@ -28,10 +28,9 @@ echo "=== Preparing Jenkins directories ==="
 mkdir -p "$CONFIGS_DIR"
 mkdir -p "$JENKINS_HOME/plugins"
 
-# Set proper ownership BEFORE starting Jenkins
 chown -R jenkins:jenkins "$JENKINS_HOME"
 
-echo "=== Installing Jenkins Plugin Manager ==="
+echo "Installing Jenkins Plugin Manager"
 curl -L -o /usr/local/bin/jenkins-plugin-manager-2.13.2.jar \
   https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.13.2/jenkins-plugin-manager-2.13.2.jar
 
@@ -43,14 +42,12 @@ chmod +x /usr/local/bin/jenkins-plugin-cli
 
 echo "=== Installing plugins BEFORE starting Jenkins ==="
 if [ -f "$INSTALL_DIR/plugins.txt" ]; then
-    # Install plugins to the correct directory with proper ownership
     jenkins-plugin-cli \
         --plugin-file "$INSTALL_DIR/plugins.txt" \
         --plugin-download-directory "$JENKINS_HOME/plugins" \
         --war /usr/share/java/jenkins.war \
         --verbose
     
-    # Ensure proper ownership after plugin installation
     chown -R jenkins:jenkins "$JENKINS_HOME"
 else
     echo "ERROR: plugins.txt not found at $INSTALL_DIR/plugins.txt"
