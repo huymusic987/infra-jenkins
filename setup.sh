@@ -31,21 +31,6 @@ mkdir -p "$JENKINS_HOME/plugins"
 # Set proper ownership BEFORE starting Jenkins
 chown -R jenkins:jenkins "$JENKINS_HOME"
 
-echo "=== Copying configuration files ==="
-cp "$INSTALL_DIR/jenkins.yaml" "$CONFIGS_DIR/jenkins.yaml"
-chown jenkins:jenkins "$CONFIGS_DIR/jenkins.yaml"
-
-echo "=== Setting up systemd override ==="
-mkdir -p /etc/systemd/system/jenkins.service.d/
-
-cat > /etc/systemd/system/jenkins.service.d/override.conf << 'EOF'
-[Service]
-Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/lib/jenkins/configs/jenkins.yaml"
-EOF
-
-systemctl daemon-reexec
-systemctl daemon-reload
-
 echo "=== Installing Jenkins Plugin Manager ==="
 curl -L -o /usr/local/bin/jenkins-plugin-manager-2.13.2.jar \
   https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.13.2/jenkins-plugin-manager-2.13.2.jar
@@ -71,6 +56,21 @@ else
     echo "ERROR: plugins.txt not found at $INSTALL_DIR/plugins.txt"
     exit 1
 fi
+
+echo "=== Copying configuration files ==="
+cp "$INSTALL_DIR/jenkins.yaml" "$CONFIGS_DIR/jenkins.yaml"
+chown jenkins:jenkins "$CONFIGS_DIR/jenkins.yaml"
+
+echo "=== Setting up systemd override ==="
+mkdir -p /etc/systemd/system/jenkins.service.d/
+
+cat > /etc/systemd/system/jenkins.service.d/override.conf << 'EOF'
+[Service]
+Environment="JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/lib/jenkins/configs/jenkins.yaml"
+EOF
+
+systemctl daemon-reexec
+systemctl daemon-reload
 
 systemctl enable jenkins
 

@@ -1,5 +1,8 @@
 configuration-as-code:latest
-workflow-aggregator:latest
+job-dsl:latest
+workflow-job:latest
+workflow-cps:latest
+workflow-durable-task-step:latest
 git:latest
 github:latest
 nodejs:latest

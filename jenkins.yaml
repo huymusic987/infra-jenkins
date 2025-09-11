@@ -49,10 +49,23 @@ unclassified:
   location:
     url: "http://localhost:8080/"
     adminAddress: "admin@localhost"
-
-  scmGit:
-    globalConfigName: "Jenkins"
-    globalConfigEmail: "jenkins@localhost"
-
   timestamper:
     allPipelines: true
+
+jobs:
+  - script: >
+      pipelineJob('autoBuildDockerimageAndPushToDockerhub') {
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/huymusic987/COSC2767-RMIT-Store.git')
+                }
+                branches('*/main')
+              }
+            }
+            scriptPath('Jenkinsfile')
+          }
+        }
+      }
